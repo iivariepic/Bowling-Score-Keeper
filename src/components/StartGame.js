@@ -1,12 +1,26 @@
-import React, {useState} from 'react'
+import React, {useState, useContext } from 'react'
+import { GlobalContext } from "../context/GlobalState";
 
 export const StartGame = () => {
     const [players, setPlayers] = useState(1);
     const [rounds, setRounds] = useState(3)
 
+    const { startGame } = useContext(GlobalContext);
+
+    const onSubmit = e => {
+        e.preventDefault()
+
+        const newGame = {
+            players,
+            rounds
+        }
+
+        startGame(newGame)
+    }
+
     return (
         <>
-            <form id="form">
+            <form onSubmit={onSubmit}>
                 <div className="form-control">
                     <label htmlFor="playerAmount">Amount of Players (1-4)</label>
                     <input
