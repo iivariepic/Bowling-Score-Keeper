@@ -8,6 +8,7 @@ export const Scoreboard = () => {
     const { currentRound } = useContext(GlobalContext)
     const { currentFrame } = useContext(GlobalContext)
 
+    const frames = Array.from({ length: 10 }, (_, i) => i + 1);
 
     return (
         <>
@@ -17,16 +18,9 @@ export const Scoreboard = () => {
             <table>
                 <tr>
                     <th>Player</th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                    <th>6</th>
-                    <th>7</th>
-                    <th>8</th>
-                    <th>9</th>
-                    <th>10</th>
+                    {frames.map(frame => (
+                        <th>{frame}</th>
+                    ))}
                     <th>Total Score</th>
                 </tr>
             </table>
