@@ -38,12 +38,17 @@ export const FrameForm = () => {
         }))
     }
 
+    // Calculate Frame Score
+    const calculateFrameScore = (player) => {
+        const {ball1, ball2} = frameScores[player.name];
+        return (Number(ball1) || 0) + (Number(ball2) || 0);
+    }
+
     const onSubmit = e => {
         e.preventDefault()
 
         const updatedPlayers = players.map(player => {
-            const {ball1, ball2} = frameScores[player.name];
-            const frameScore = (Number(ball1) || 0) + (Number(ball2) || 0);
+            const frameScore = calculateFrameScore(player)
 
             return {
                 ...player,
