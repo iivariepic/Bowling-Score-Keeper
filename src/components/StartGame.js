@@ -103,7 +103,12 @@ export const StartGame = () => {
                         <label htmlFor="round5">5</label>
                     </div>
                 </div>
-                <button className="btn">Start Game with these Settings</button>
+                <button
+                    className="btn"
+                    disabled={players.some(player => player.name.trim() === "")}
+                >
+                    Start Game with these Settings
+                </button>
             </form>
         </>
     )

@@ -20,6 +20,7 @@ export const Scoreboard = () => {
                 <tr>
                     <th>Player</th>
                     {frames.map(frame => (
+                        // Loop through numbers 1 to 10
                         <th>{frame}</th>
                     ))}
                     <th>Total Score</th>
