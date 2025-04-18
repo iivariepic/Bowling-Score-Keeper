@@ -2,6 +2,7 @@
 
 import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
+import { ScoreboardPlayer } from "./ScoreboardPlayer"
 
 export const Scoreboard = () => {
     const { game } = useContext(GlobalContext);
@@ -23,6 +24,10 @@ export const Scoreboard = () => {
                     ))}
                     <th>Total Score</th>
                 </tr>
+                {game.players.map((player, index) => (
+                    <ScoreboardPlayer player={player} />
+                ))
+                }
             </table>
         </>
     )

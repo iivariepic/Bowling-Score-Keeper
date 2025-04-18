@@ -68,6 +68,11 @@ input[type='number'] {
     width: 100%;
 }
 
+.btn:disabled {
+    background-color: #ADB5BD;
+    cursor: not-allowed;
+}
+
 .list {
     list-style-type: none;
     padding: 0;
@@ -97,7 +102,8 @@ th {
 }
 
 td {
-    border: 1px solid #212529;
+    border: 1px solid #fff;
+    color: #ffffff
 }
 
 tr:nth-child(even) {
@@ -106,4 +112,9 @@ tr:nth-child(even) {
 
 tr:nth-child(odd) {
     background-color: #163E55
+}
+
+.inline {
+    display: flex;
+    gap: 1rem;
 }

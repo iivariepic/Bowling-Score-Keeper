@@ -4,8 +4,8 @@ import React, {useState, useContext } from 'react'
 import { GlobalContext } from "../context/GlobalState";
 
 export const StartGame = () => {
-    const [players, setPlayers] = useState(1);
-    const [rounds, setRounds] = useState(3)
+    const [players, setPlayers] = useState([{name:"", scores:[]}]);
+    const [rounds, setRounds] = useState(3);
 
     const { startGame } = useContext(GlobalContext);
 
@@ -20,19 +20,67 @@ export const StartGame = () => {
         startGame(newGame)
     }
 
+    // Delete button pressed
+    const onDelete = e => {
+        e.preventDefault()
+        let newPlayers = [...players]
+        newPlayers.pop()
+        setPlayers(newPlayers)
+    }
+
+    // Add button pressed
+    const onAdd = e => {
+        e.preventDefault()
+        setPlayers([...players, {name:"", scores:[]}])
+    }
+
+    // Handle player name change
+    const handlePlayerNameChange = (index, value) => {
+        const updatedPlayers = [...players];
+        updatedPlayers[index].name = value;
+        setPlayers(updatedPlayers);
+    }
+
     return (
         <>
             <form onSubmit={onSubmit}>
                 <div className="form-control">
-                    <label htmlFor="playerAmount">Amount of Players (1-4)</label>
-                    <input
-                        type="number"
-                        value={players}
-                        onChange={(event) => setPlayers(Number(event.target.value))}
-                        min="1"
-                        max="4"
-                    />
+                    <label htmlFor="playerAmount">Players</label>
+                    {/* Render the player name inputs */}
+                    {players.map((player, index) => (
+                        <input
+                            type="text"
+                            placeholder={`Player ${index +1} name`}
+                            value = {player.name}
+                            onChange={(event) => handlePlayerNameChange(
+                                index, event.target.value
+                            )}
+                            style={{ marginBottom: "1rem"}}
+                        />
+                    ))}
+
+                    {/* Delete and Add buttons */}
+                    <div className="inline">
+                        <button
+                            type="button"
+                            className="btn"
+                            onClick={ onDelete }
+                            disabled={players.length <= 1}
+
+                        >
+                            Delete Player
+                        </button>
+                        <button
+                            type="button"
+                            className="btn"
+                            onClick={ onAdd}
+                            disabled={players.length >= 4}
+                        >
+                            Add Player
+                        </button>
+                    </div>
                 </div>
+
                 <div className="form-control">
                     <label>Number of Rounds</label>
                     <div>
