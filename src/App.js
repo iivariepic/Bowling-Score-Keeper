@@ -12,8 +12,12 @@ const GameWrapper = () => {
 
     return (
         <div className="container">
-            {!game?.players ? <StartGame /> :
-            <Scoreboard />}
+            {!game?.players ?
+                // This is what is visible before the game starts
+                <StartGame />
+                :
+                // This is what is visible after the game starts
+                <Scoreboard />}
         </div>
     )
 }

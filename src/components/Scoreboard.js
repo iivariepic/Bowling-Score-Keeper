@@ -1,3 +1,5 @@
+// The scoreboard of the current game
+
 import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
 

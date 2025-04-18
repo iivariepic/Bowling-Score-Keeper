@@ -1,3 +1,5 @@
+// The form that contains the settings for the game
+
 import React, {useState, useContext } from 'react'
 import { GlobalContext } from "../context/GlobalState";
 
