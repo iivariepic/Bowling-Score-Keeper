@@ -8,5 +8,20 @@ export default (state, action) => {
                 ...state,
                 game: action.payload
             }
+
+        case "NEXT_FRAME":
+            return {
+                ...state,
+                currentFrame: state.currentFrame + 1,
+            }
+
+        case "UPDATE_PLAYERS":
+            return {
+                ...state,
+                game: {
+                    ...state.game,
+                    players: action.payload,
+                },
+            };
     }
 }

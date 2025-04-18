@@ -101,6 +101,11 @@ input[type='number'] {
     margin: 10px 0;
 }
 
+.table-wrapper {
+    border-bottom: 1px solid #bbb;
+    padding-bottom: 10px;
+}
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -130,6 +135,12 @@ tr:nth-child(odd) {
 .inline {
     display: flex;
     gap: 1rem;
+}
+
+.inline label {
+    width: 100px;
+    flex-shrink: 0;
+    align-self: start;
 }
 
 .current-frame {

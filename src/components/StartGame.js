@@ -56,6 +56,7 @@ export const StartGame = () => {
                                 index, event.target.value
                             )}
                             style={{ marginBottom: "1rem"}}
+                            maxLength="20"
                         />
                     ))}
 

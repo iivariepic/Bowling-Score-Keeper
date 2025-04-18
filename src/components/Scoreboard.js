@@ -16,22 +16,24 @@ export const Scoreboard = () => {
             <h3>
                 Scoreboard (Game {currentRound}/{game.rounds})
             </h3>
-            <table>
-                <tr>
-                    <th>Player</th>
-                    {frames.map(frame => (
-                        // Loop through numbers 1 to 10
-                        <th
-                            className={frame === currentFrame ? "current-frame" : ""}
-                        >{frame}</th>
-                    ))}
-                    <th>Total Score</th>
-                </tr>
-                {game.players.map((player, index) => (
-                    <ScoreboardPlayer player={player} />
-                ))
-                }
-            </table>
+            <div className="table-wrapper">
+                <table>
+                    <tr>
+                        <th>Player</th>
+                        {frames.map(frame => (
+                            // Loop through numbers 1 to 10
+                            <th
+                                className={frame === currentFrame ? "current-frame" : ""}
+                            >{frame}</th>
+                        ))}
+                        <th>Total Score</th>
+                    </tr>
+                    {game.players.map((player, index) => (
+                        <ScoreboardPlayer player={player} />
+                    ))
+                    }
+                </table>
+            </div>
         </>
     )
 }

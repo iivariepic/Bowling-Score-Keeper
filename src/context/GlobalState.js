@@ -20,11 +20,21 @@ export const GlobalProvider = ({ children }) => {
         });
     }
 
+    function nextFrame() {
+        dispatch({ type: "NEXT_FRAME" });
+    }
+
+    function updatePlayers(players) {
+        dispatch({ type: "UPDATE_PLAYERS", payload: players });
+    }
+
     return (<GlobalContext.Provider value={{
         game: state.game,
         currentRound: state.currentRound,
         currentFrame: state.currentFrame,
-        startGame
+        startGame,
+        nextFrame,
+        updatePlayers,
     }}>
         {children}
     </GlobalContext.Provider>)
