@@ -59,8 +59,8 @@ export const StartGame = () => {
                         />
                     ))}
 
-                    {/* Delete and Add buttons */}
                     <div className="inline">
+                        {/* Delete button */}
                         <button
                             type="button"
                             className="btn"
@@ -70,6 +70,8 @@ export const StartGame = () => {
                         >
                             Delete Player
                         </button>
+
+                        {/* Add button */}
                         <button
                             type="button"
                             className="btn"
