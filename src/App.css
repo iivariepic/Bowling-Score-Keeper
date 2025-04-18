@@ -19,14 +19,20 @@ body {
 }
 
 .container {
-    margin: 30px auto;
-    width: 400px;
+    margin: auto;
+    width: 800px;
 }
 
 
 h1 {
     letter-spacing: 1px;
     margin: 0;
+}
+
+h2 {
+    letter-spacing: 1px;
+    margin: 0;
+    text-align: center;
 }
 
 h3 {
@@ -38,6 +44,11 @@ h3 {
 h4 {
     margin: 0;
     text-transform: uppercase;
+}
+
+form {
+    width: 400px;
+    margin: 0 auto;
 }
 
 label {
@@ -98,12 +109,14 @@ table {
 th {
     border: 1px solid #ffffff;
     background-color: #3B2730;
-    color: #ffffff
+    color: #ffffff;
+    padding: 16px 16px;
 }
 
 td {
     border: 1px solid #fff;
-    color: #ffffff
+    color: #ffffff;
+    padding: 16px 16px;
 }
 
 tr:nth-child(even) {
@@ -117,4 +130,9 @@ tr:nth-child(odd) {
 .inline {
     display: flex;
     gap: 1rem;
+}
+
+.current-frame {
+    background-color: #ED8100;
+    font-weight: bold;
 }

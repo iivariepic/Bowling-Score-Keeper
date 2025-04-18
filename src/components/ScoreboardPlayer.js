@@ -1,15 +1,19 @@
 // Scoreboard table row for a single player
 
-import React from "react";
+import React,{ useContext } from "react";
+import { GlobalContext } from "../context/GlobalState";
 
 export const ScoreboardPlayer = ({ player }) => {
     const total = player.scores.reduce((sum, score) => sum + score, 0);
+    const { currentFrame } = useContext(GlobalContext);
 
     return (
         <tr>
             <td>{player.name}</td>
             {Array.from({ length: 10 }, (_, i) => (
-                <td>{player.scores[i] !== undefined ? player.scores[i] : ''}</td>
+                <td
+                    className={i + 1 === currentFrame ? "current-frame" : ""}
+                >{player.scores[i] !== undefined ? player.scores[i] : ''}</td>
             ))}
             <td>{total}</td>
         </tr>
