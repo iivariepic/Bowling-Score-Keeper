@@ -2,8 +2,9 @@ import React, { createContext, useReducer } from "react";
 import AppReducer from './AppReducer';
 
 const initialState = {
-    game: {}
-
+    game: {},
+    currentRound: 1,
+    currentFrame: 1,
 }
 
 export const GlobalContext = createContext(initialState)
@@ -21,6 +22,8 @@ export const GlobalProvider = ({ children }) => {
 
     return (<GlobalContext.Provider value={{
         game: state.game,
+        currentRound: state.currentRound,
+        currentFrame: state.currentFrame,
         startGame
     }}>
         {children}
