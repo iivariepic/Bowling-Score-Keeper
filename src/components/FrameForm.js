@@ -1,4 +1,4 @@
-// The form that contains the settings for the game
+// The form that can be used to submit the scores of the current frame
 
 import React, {useState, useContext, useEffect} from 'react'
 import { GlobalContext } from "../context/GlobalState";
