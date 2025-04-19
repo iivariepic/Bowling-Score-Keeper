@@ -86,13 +86,16 @@ export const FrameForm = () => {
             newScores.push(frameScore)
 
             // Update the player game total score if the current frame is the last
-            const prevTotal = player.gameTotal || 0;
-            const newTotal = prevTotal + player.scores.reduce((sum, score) => sum + score.total, 0);
+            let newTotal = player.gameTotal || 0;
+            if (currentFrame === 10){
+                const prevTotal = player.gameTotal || 0;
+                newTotal = prevTotal + player.scores.reduce((sum, score) => sum + score.total, 0);
+            }
 
             return {
                 ...player,
                 scores: newScores,
-                gameTotal: newTotal
+                gameTotal: newTotal,
             };
         });
 
