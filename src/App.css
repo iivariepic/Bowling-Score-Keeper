@@ -138,7 +138,7 @@ tr:nth-child(odd) {
 }
 
 .inline label {
-    width: 100px;
+    width: 250px;
     flex-shrink: 0;
     align-self: start;
 }

@@ -48,6 +48,7 @@ export const FrameForm = () => {
         };
     }
 
+
     const onSubmit = e => {
         e.preventDefault()
 
@@ -84,9 +85,14 @@ export const FrameForm = () => {
 
             newScores.push(frameScore)
 
+            // Update the player game total score if the current frame is the last
+            const prevTotal = player.gameTotal || 0;
+            const newTotal = prevTotal + player.scores.reduce((sum, score) => sum + score.total, 0);
+
             return {
                 ...player,
                 scores: newScores,
+                gameTotal: newTotal
             };
         });
 
@@ -95,7 +101,7 @@ export const FrameForm = () => {
     };
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} style={{ width: '600px' }}>
             <div className="form-control">
                 <h3>Current Frame: {currentFrame}</h3>
                 {/* Entry fields for ball scores */}
