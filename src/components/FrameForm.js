@@ -41,18 +41,52 @@ export const FrameForm = () => {
     // Calculate Frame Score
     const calculateFrameScore = (player) => {
         const {ball1, ball2} = frameScores[player.name];
-        return (Number(ball1) || 0) + (Number(ball2) || 0);
+        return {
+            total: (Number(ball1) || 0) + (Number(ball2) || 0),
+            ball1: Number(ball1),
+            ball2: Number(ball2),
+        };
     }
 
     const onSubmit = e => {
         e.preventDefault()
 
         const updatedPlayers = players.map(player => {
-            const frameScore = calculateFrameScore(player)
+            const frameScore = calculateFrameScore(player);
+            const newScores = [...player.scores];
+
+            // Update the previous scores if it was a strike or spare
+            const lastIndex = newScores.length - 1;
+
+            if (lastIndex >= 0) {
+                const prev = newScores[lastIndex];
+
+                // Strike
+                if (prev.ball1 === 10) {
+                    // Add both ball 1 and ball 2 to total
+                    prev.total += frameScore.ball1 + frameScore.ball2;
+                    // Also check the frame before for double strikes
+                    if (lastIndex >= 1) {
+                        const before_prev = newScores[lastIndex-1];
+                        if (before_prev.ball1 === 10) {
+                            // Add ball 1
+                            before_prev.total += frameScore.ball1
+                        }
+                    }
+                }
+                // Spare
+                else if (prev.ball1 + prev.ball2 === 10) {
+                    // Add only ball 1 to total
+                    prev.total += frameScore.ball1
+                }
+
+            }
+
+            newScores.push(frameScore)
 
             return {
                 ...player,
-                scores: [...player.scores, frameScore],
+                scores: newScores,
             };
         });
 

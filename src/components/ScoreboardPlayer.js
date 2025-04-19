@@ -4,7 +4,7 @@ import React,{ useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
 
 export const ScoreboardPlayer = ({ player }) => {
-    const total = player.scores.reduce((sum, score) => sum + score, 0);
+    const total = player.scores.reduce((sum, score) => sum + score.total, 0);
     const { currentFrame } = useContext(GlobalContext);
 
     return (
@@ -13,7 +13,7 @@ export const ScoreboardPlayer = ({ player }) => {
             {Array.from({ length: 10 }, (_, i) => (
                 <td
                     className={i + 1 === currentFrame ? "current-frame" : ""}
-                >{player.scores[i] !== undefined ? player.scores[i] : ''}</td>
+                >{player.scores[i] !== undefined ? player.scores[i].total : ''}</td>
             ))}
             <td>{total}</td>
         </tr>
