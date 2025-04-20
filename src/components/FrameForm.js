@@ -4,7 +4,7 @@ import React, {useState, useContext, useEffect} from 'react'
 import { GlobalContext } from "../context/GlobalState";
 
 export const FrameForm = () => {
-    const { game, currentFrame, updatePlayers, nextFrame } = useContext(GlobalContext);
+    const { game, currentFrame, updatePlayers, nextFrame, prevFrame } = useContext(GlobalContext);
     const [frameScores, setFrameScores] = useState({});
     const players = game.players
 
@@ -13,10 +13,14 @@ export const FrameForm = () => {
     useEffect(() => {
         const initialScores = {};
         players.forEach(player => {
-            initialScores[player.name] = {ball1: "", ball2: ""}
+            const scoreForFrame = player.scores?.[currentFrame - 1] || { ball1: "", ball2: "" };
+            initialScores[player.name] = {
+                ball1: scoreForFrame.ball1 ?? "",
+                ball2: scoreForFrame.ball2 ?? ""
+            };
         });
         setFrameScores(initialScores);
-    }, [players])
+    }, [players, currentFrame]);
 
     // Handle ball input changes
     const handleChange = (playerName, ball, value) => {
@@ -54,7 +58,7 @@ export const FrameForm = () => {
         const newScores = [...player.scores];
 
         // Update the previous scores if it was a strike or spare
-        const lastIndex = newScores.length - 1;
+        const lastIndex = currentFrame - 2;
 
         if (lastIndex >= 0) {
             const prev = newScores[lastIndex];
@@ -79,7 +83,7 @@ export const FrameForm = () => {
             }
         }
 
-        newScores.push(frameScore)
+        newScores[currentFrame - 1] = frameScore;
 
         // Update the player game total score if the current frame is the last
         let newTotal = player.gameTotal || 0;
@@ -101,6 +105,25 @@ export const FrameForm = () => {
         const updatedPlayers = players.map(player => updatePlayerScore(player));
 
         updatePlayers(updatedPlayers);
+    };
+
+    // This is needed for the "Prev Frame"
+    const submitAndPrevFrame = (e) => {
+        e.preventDefault();
+
+        const updatedPlayers = players.map(player => updatePlayerScore(player));
+        updatePlayers(updatedPlayers);
+
+        prevFrame();
+    };
+
+    // This is needed for the "Next Frame"
+    const submitAndNextFrame = (e) => {
+        e.preventDefault();
+
+        const updatedPlayers = players.map(player => updatePlayerScore(player));
+        updatePlayers(updatedPlayers);
+
         nextFrame();
     };
 
@@ -140,9 +163,21 @@ export const FrameForm = () => {
                 ))}
             </div>
             <div className="form-control">
-                <button className="btn">
-                    Submit Frame Scores
-                </button>
+                <div className="inline">
+                    <button
+                        className="btn"
+                        onClick={submitAndPrevFrame}
+                        disabled={currentFrame <= 1}
+                    >
+                        Previous Frame
+                    </button>
+                    <button
+                        className="btn"
+                        onClick={submitAndNextFrame}
+                    >
+                        {currentFrame !== 10 ? "Next Frame" : "Submit Round"}
+                    </button>
+                </div>
             </div>
         </form>
     )

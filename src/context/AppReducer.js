@@ -15,6 +15,12 @@ export default (state, action) => {
                 currentFrame: state.currentFrame + 1,
             }
 
+        case "PREV_FRAME":
+            return {
+                ...state,
+                currentFrame: state.currentFrame - 1
+            }
+
         case "UPDATE_PLAYERS":
             return {
                 ...state,

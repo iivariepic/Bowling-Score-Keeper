@@ -24,6 +24,10 @@ export const GlobalProvider = ({ children }) => {
         dispatch({ type: "NEXT_FRAME" });
     }
 
+    function prevFrame() {
+        dispatch({ type: "PREV_FRAME" })
+    }
+
     function updatePlayers(players) {
         dispatch({ type: "UPDATE_PLAYERS", payload: players });
     }
@@ -42,6 +46,7 @@ export const GlobalProvider = ({ children }) => {
         currentFrame: state.currentFrame,
         startGame,
         nextFrame,
+        prevFrame,
         updatePlayers,
         nextRound,
         backToMain,
