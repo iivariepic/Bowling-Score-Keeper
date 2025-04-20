@@ -19,7 +19,7 @@ const GameWrapper = () => {
     }
 
     if (currentFrame === 11) {
-        if (currentRound === 3) {return <EndScreen />}
+        if (currentRound === game?.rounds) {return <EndScreen />}
         else {return <Intermission />}
     };
 
