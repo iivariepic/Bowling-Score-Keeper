@@ -51,5 +51,20 @@ export default (state, action) => {
                 game: null,
                 currentFrame: 0,
         };
+
+        case "RESTART_GAME":
+            return {
+                ...state,
+                currentRound: 1,
+                currentFrame: 0,
+                game: {
+                    ...state.game,
+                    players: state.game.players.map(player => ({
+                        ...player,
+                        scores: [],
+                        gameTotal: 0
+                    })),
+                }
+            };
     }
 }

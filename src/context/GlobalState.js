@@ -40,6 +40,10 @@ export const GlobalProvider = ({ children }) => {
         dispatch({ type: "BACK_TO_MAIN" })
     }
 
+    function restartGame() {
+        dispatch({ type: "RESTART_GAME" })
+    }
+
     return (<GlobalContext.Provider value={{
         game: state.game,
         currentRound: state.currentRound,
@@ -50,6 +54,7 @@ export const GlobalProvider = ({ children }) => {
         updatePlayers,
         nextRound,
         backToMain,
+        restartGame,
     }}>
         {children}
     </GlobalContext.Provider>)

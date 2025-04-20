@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
 export const EndScreen = () => {
-    const {game, currentRound, backToMain} = useContext(GlobalContext);
+    const {game, currentRound, backToMain, restartGame} = useContext(GlobalContext);
     let players = [...game.players].sort((a, b) => b.gameTotal - a.gameTotal);
 
     return (
@@ -21,12 +21,20 @@ export const EndScreen = () => {
                     );
                 })}
             </div>
-            <button
-                className="btn"
-                onClick={backToMain}
-            >
-                Back To Main Menu
-            </button>
+            <div className="inline">
+                <button
+                    className="btn"
+                    onClick={backToMain}
+                >
+                    Back To Main Menu
+                </button>
+                <button
+                    className="btn"
+                    onClick={restartGame}
+                >
+                    Restart Game With the Same Players
+                </button>
+            </div>
         </div>
     )
 }
