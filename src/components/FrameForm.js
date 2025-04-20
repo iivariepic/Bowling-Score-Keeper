@@ -48,56 +48,57 @@ export const FrameForm = () => {
         };
     }
 
+    // Function to update player scores
+    const updatePlayerScore = (player) => {
+        const frameScore = calculateFrameScore(player);
+        const newScores = [...player.scores];
+
+        // Update the previous scores if it was a strike or spare
+        const lastIndex = newScores.length - 1;
+
+        if (lastIndex >= 0) {
+            const prev = newScores[lastIndex];
+
+            // Strike
+            if (prev.ball1 === 10) {
+                // Add both ball 1 and ball 2 to total
+                prev.total += frameScore.ball1 + frameScore.ball2;
+                // Also check the frame before for double strikes
+                if (lastIndex >= 1) {
+                    const before_prev = newScores[lastIndex-1];
+                    if (before_prev.ball1 === 10) {
+                        // Add ball 1
+                        before_prev.total += frameScore.ball1
+                    }
+                }
+            }
+            // Spare
+            else if (prev.ball1 + prev.ball2 === 10) {
+                // Add only ball 1 to total
+                prev.total += frameScore.ball1
+            }
+        }
+
+        newScores.push(frameScore)
+
+        // Update the player game total score if the current frame is the last
+        let newTotal = player.gameTotal || 0;
+        if (currentFrame === 10){
+            const prevTotal = player.gameTotal || 0;
+            newTotal = prevTotal + player.scores.reduce((sum, score) => sum + score.total, 0);
+        }
+
+        return {
+            ...player,
+            scores: newScores,
+            gameTotal: newTotal,
+        };
+    }
 
     const onSubmit = e => {
         e.preventDefault()
 
-        const updatedPlayers = players.map(player => {
-            const frameScore = calculateFrameScore(player);
-            const newScores = [...player.scores];
-
-            // Update the previous scores if it was a strike or spare
-            const lastIndex = newScores.length - 1;
-
-            if (lastIndex >= 0) {
-                const prev = newScores[lastIndex];
-
-                // Strike
-                if (prev.ball1 === 10) {
-                    // Add both ball 1 and ball 2 to total
-                    prev.total += frameScore.ball1 + frameScore.ball2;
-                    // Also check the frame before for double strikes
-                    if (lastIndex >= 1) {
-                        const before_prev = newScores[lastIndex-1];
-                        if (before_prev.ball1 === 10) {
-                            // Add ball 1
-                            before_prev.total += frameScore.ball1
-                        }
-                    }
-                }
-                // Spare
-                else if (prev.ball1 + prev.ball2 === 10) {
-                    // Add only ball 1 to total
-                    prev.total += frameScore.ball1
-                }
-
-            }
-
-            newScores.push(frameScore)
-
-            // Update the player game total score if the current frame is the last
-            let newTotal = player.gameTotal || 0;
-            if (currentFrame === 10){
-                const prevTotal = player.gameTotal || 0;
-                newTotal = prevTotal + player.scores.reduce((sum, score) => sum + score.total, 0);
-            }
-
-            return {
-                ...player,
-                scores: newScores,
-                gameTotal: newTotal,
-            };
-        });
+        const updatedPlayers = players.map(player => updatePlayerScore(player));
 
         updatePlayers(updatedPlayers);
         nextFrame();
