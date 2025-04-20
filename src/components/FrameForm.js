@@ -13,10 +13,11 @@ export const FrameForm = () => {
     useEffect(() => {
         const initialScores = {};
         players.forEach(player => {
-            const scoreForFrame = player.scores?.[currentFrame - 1] || { ball1: "", ball2: "" };
+            const frameScore = player.scores?.[currentFrame - 1] || { ball1: "", ball2: "" };
             initialScores[player.name] = {
-                ball1: scoreForFrame.ball1 ?? "",
-                ball2: scoreForFrame.ball2 ?? ""
+                ball1: frameScore.ball1 ?? "",
+                ball2: frameScore.ball2 ?? "",
+                ball3: frameScore.ball3 ?? ""
             };
         });
         setFrameScores(initialScores);
@@ -24,14 +25,18 @@ export const FrameForm = () => {
 
     // Handle ball input changes
     const handleChange = (playerName, ball, value) => {
-        // Make sure the ball scores equal to at most 10
         value = Number(value);
-        const otherBall = ball === "ball1" ? "ball2" : "ball1";
-        const otherValue = frameScores[playerName]?.[otherBall] ?? 0;
 
-        if (value + otherValue > 10) {
-            value = 10 - otherValue;
+        if (ball !== "ball3"){
+            // Make sure the ball scores equal to at most 10 (Only for balls 1 and 2)
+            const otherBall = ball === "ball1" ? "ball2" : "ball1";
+            const otherValue = frameScores[playerName]?.[otherBall] ?? 0;
+
+            if (value + otherValue > 10) {
+                value = 10 - otherValue;
+            }
         }
+
 
         setFrameScores(prev => ({
             ...prev,
@@ -44,11 +49,26 @@ export const FrameForm = () => {
 
     // Calculate Frame Score
     const calculateFrameScore = (player) => {
-        const {ball1, ball2} = frameScores[player.name];
+        const { ball1, ball2, ball3 } = frameScores[player.name];
+
+        const b1 = Number(ball1) || 0;
+        const b2 = Number(ball2) || 0;
+        const b3 = Number(ball3) || 0;
+
+        let totalScore = b1 + b2;
+
+        // Frame 10 logic
+        if (currentFrame === 10) {
+            if (b1 === 10 || b1 + b2 === 10) {
+                totalScore += b3;
+            }
+        }
+
         return {
-            total: (Number(ball1) || 0) + (Number(ball2) || 0),
-            ball1: Number(ball1),
-            ball2: Number(ball2),
+            total: totalScore,
+            ball1: b1,
+            ball2: b2,
+            ball3: b3,
         };
     }
 
@@ -159,6 +179,24 @@ export const FrameForm = () => {
                                 handleChange(player.name, "ball2", e.target.value)
                             }
                         />
+                        {/* Ball 3 Input but only for frame 10 AND if there was a strike or a spare*/}
+                        {currentFrame === 10 && (
+                            (frameScores[player.name]?.ball1 === 10 ||
+                                frameScores[player.name]?.ball1 + frameScores[player.name]?.ball2 === 10)
+                            && (
+                                <input
+                                    type="number"
+                                    placeholder="Pins (Ball 3)"
+                                    value={frameScores[player.name]?.ball3 ?? ""}
+                                    style={{ marginBottom: "1rem" }}
+                                    max="10"
+                                    min="0"
+                                    onChange={(e) =>
+                                        handleChange(player.name, "ball3", e.target.value)
+                                    }
+                                />
+                            )
+                        )}
                     </div>
                 ))}
             </div>
