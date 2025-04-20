@@ -23,5 +23,27 @@ export default (state, action) => {
                     players: action.payload,
                 },
             };
+
+        case "NEXT_ROUND":
+            return {
+                ...state,
+                currentRound: state.currentRound + 1,
+                currentFrame: 0,
+                game: {
+                    ...state.game,
+                    players: state.game.players.map(player => ({
+                        ...player,
+                        scores: [],
+                    })),
+                },
+            };
+
+        case "BACK_TO_MAIN":
+            return {
+                ...state,
+                currentRound: 1,
+                game: null,
+                currentFrame: 0,
+        };
     }
 }

@@ -1,15 +1,15 @@
-// The intermission screen that pops up between rounds of a game
+// The End Screen that plays after all the rounds are finished
 
 import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
-export const Intermission = () => {
-    const { game, currentRound , nextRound} = useContext(GlobalContext);
+export const EndScreen = () => {
+    const {game, currentRound, backToMain} = useContext(GlobalContext);
     let players = [...game.players].sort((a, b) => b.gameTotal - a.gameTotal);
 
     return (
         <div className="container">
-            <h3>Player Standings (Round {currentRound})</h3>
+            <h3>Player Final Standings</h3>
             <div className="list">
                 {players.map(player => {
                     return (
@@ -23,9 +23,9 @@ export const Intermission = () => {
             </div>
             <button
                 className="btn"
-                onClick={nextRound}
+                onClick={backToMain}
             >
-                Next Round
+                Back To Main Menu
             </button>
         </div>
     )
