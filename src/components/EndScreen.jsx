@@ -11,7 +11,7 @@ export const EndScreen = () => {
   return (
     <div className="container">
       <h3>Player Final Standings</h3>
-      <div className="list">
+      <ul className="list">
         {players.map((player, index) => {
           return (
             <li key={`end-screen-player-${index}`}>
@@ -26,7 +26,7 @@ export const EndScreen = () => {
             </li>
           );
         })}
-      </div>
+      </ul>
       <div className="inline">
         <button className="btn" onClick={backToMain}>
           Back To Main Menu

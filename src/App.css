@@ -30,6 +30,10 @@ input[type="number"] {
   width: 100%;
 }
 
+.input-margin {
+  margin-bottom: 1rem;
+}
+
 .btn {
   cursor: pointer;
   background-color: #9c88ff;

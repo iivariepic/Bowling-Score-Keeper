@@ -10,7 +10,7 @@ export const Intermission = () => {
   return (
     <div className="container">
       <h3>Player Standings (Round {currentRound})</h3>
-      <div className="list">
+      <ul className="list">
         {players.map((player, index) => {
           return (
             <li key={`intermission-player-${index}`}>
@@ -25,7 +25,7 @@ export const Intermission = () => {
             </li>
           );
         })}
-      </div>
+      </ul>
       <button className="btn" onClick={nextRound}>
         Next Round
       </button>
