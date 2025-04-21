@@ -9,13 +9,13 @@ export const EndScreen = () => {
   let players = [...game.players].sort((a, b) => b.gameTotal - a.gameTotal);
 
   return (
-    <div className="container">
+    <div>
       <h3>Player Final Standings</h3>
       <ul className="list">
         {players.map((player, index) => {
           return (
             <li key={`end-screen-player-${index}`}>
-              <b>{index + 1}.</b>
+              <b>{index + 1}. </b>
               {player.name}:{" "}
               {
                 // Only show the decimal if it is needed

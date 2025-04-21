@@ -8,13 +8,13 @@ export const Intermission = () => {
   let players = [...game.players].sort((a, b) => b.gameTotal - a.gameTotal);
 
   return (
-    <div className="container">
+    <div>
       <h3>Player Standings (Round {currentRound})</h3>
       <ul className="list">
         {players.map((player, index) => {
           return (
             <li key={`intermission-player-${index}`}>
-              <b>{index + 1}.</b>
+              <b>{index + 1}. </b>
               {player.name}:{" "}
               {
                 // Only show the decimal if it is needed

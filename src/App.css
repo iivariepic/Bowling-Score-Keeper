@@ -1,39 +1,64 @@
+/* Root container */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  font-family: "Poppins", sans-serif;
 }
 
+/* Main container for components */
 .container {
   margin: auto;
   width: 800px;
 }
 
+/* Form styles */
 form {
   width: 400px;
   margin: 0 auto;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: var(--box-shadow);
 }
 
+/* Label styles */
 label {
-  display: inline-block;
-  margin: 10px 0;
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
 }
 
+/* Input styles */
 input[type="text"],
 input[type="number"] {
   border: 1px solid #dedede;
-  border-radius: 2px;
+  border-radius: 4px;
   display: block;
   font-size: 16px;
   padding: 10px;
   width: 100%;
+  margin-bottom: 15px;
 }
 
-.input-margin {
-  margin-bottom: 1rem;
+input[type="text"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
+.header {
+  margin-top: -20px; /* Move the header upwards */
+  margin-bottom: 20px; /* Add spacing below the header */
+  font-size: 28px;
+  color: #333;
+  text-align: center;
+}
+
+/* Button styles */
 .btn {
   cursor: pointer;
   background-color: #9c88ff;
@@ -45,6 +70,12 @@ input[type="number"] {
   margin: 10px 0 30px;
   padding: 10px;
   width: 100%;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #7d5fff;
 }
 
 .btn:disabled {
@@ -52,6 +83,7 @@ input[type="number"] {
   cursor: not-allowed;
 }
 
+/* List styles */
 .list {
   list-style-type: none;
   padding: 0;
@@ -62,44 +94,53 @@ input[type="number"] {
   background-color: #fff;
   box-shadow: var(--box-shadow);
   color: #333;
-  display: flex;
-  justify-content: space-between;
   position: relative;
   padding: 10px;
   margin: 10px 0;
 }
 
+/* Table wrapper styles */
 .table-wrapper {
   border-bottom: 1px solid #bbb;
-  padding-bottom: 10px;
+  padding: 20px; /* Add padding around the table */
+  margin: 10px 10px 20px 10px;
+  background-color: #f8f9fa; /* Light gray background */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: var(--box-shadow); /* Add shadow for better appearance */
 }
 
+/* Table styles */
 table {
   border-collapse: collapse;
   width: 100%;
+  border-radius: 8px; /* Rounded corners for the table */
+  overflow: hidden; /* Ensure rounded corners apply to the table */
 }
 
 th {
   border: 1px solid #ffffff;
-  background-color: #3b2730;
-  color: #ffffff;
-  padding: 16px 16px;
+  background-color: #7d5fff; /* Primary blue color */
+  color: #ffffff; /* White text */
+  padding: 16px;
+  text-transform: uppercase;
 }
 
 td {
-  border: 1px solid #fff;
-  color: #ffffff;
-  padding: 16px 16px;
+  border: 1px solid #dee2e6;
+  color: #333; /* Dark gray text */
+  padding: 16px;
+  text-align: center;
 }
 
 tr:nth-child(even) {
-  background-color: #2185cf;
+  background-color: #e9ecef; /* Slightly darker gray for even rows */
 }
 
 tr:nth-child(odd) {
-  background-color: #163e55;
+  background-color: #ffffff; /* White for odd rows */
 }
 
+/* Inline elements */
 .inline {
   display: flex;
   gap: 1rem;
@@ -111,7 +152,34 @@ tr:nth-child(odd) {
   align-self: start;
 }
 
+/* Current frame highlight */
 .current-frame {
   background-color: #ed8100;
   font-weight: bold;
+  color: #ffffff;
+  border-radius: 4px;
+}
+
+/* Styles for the Number of Rounds section */
+.form-control label {
+  display: block;
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-margin {
+  margin-bottom: 1rem;
 }
