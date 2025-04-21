@@ -18,19 +18,25 @@ export const Scoreboard = () => {
       </h3>
       <div className="table-wrapper">
         <table>
-          <tr>
-            <th>Player</th>
-            {frames.map((frame) => (
-              // Loop through numbers 1 to 10
-              <th className={frame === currentFrame ? "current-frame" : ""}>
-                {frame}
-              </th>
+          <thead>
+            <tr>
+              <th>Player</th>
+              {frames.map((frame) => (
+                <th
+                  key={`frame-${frame}`}
+                  className={frame === currentFrame ? "current-frame" : ""}
+                >
+                  {frame}
+                </th>
+              ))}
+              <th>Total Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {game.players.map((player, index) => (
+              <ScoreboardPlayer key={`player-${index}`} player={player} />
             ))}
-            <th>Total Score</th>
-          </tr>
-          {game.players.map((player, index) => (
-            <ScoreboardPlayer player={player} />
-          ))}
+          </tbody>
         </table>
       </div>
     </>
