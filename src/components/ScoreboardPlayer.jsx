@@ -11,7 +11,10 @@ export const ScoreboardPlayer = ({ player }) => {
     <tr>
       <td>{player.name}</td>
       {Array.from({ length: 10 }, (_, i) => (
-        <td className={i + 1 === currentFrame ? "current-frame" : ""}>
+        <td
+          key={`player-frame-${i}`}
+          className={i + 1 === currentFrame ? "current-frame" : ""}
+        >
           {player.scores[i] !== undefined ? player.scores[i].total : ""}
         </td>
       ))}
