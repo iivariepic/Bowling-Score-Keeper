@@ -156,7 +156,7 @@ export const FrameForm = () => {
         <h3>Current Frame: {currentFrame}</h3>
         {/* Entry fields for ball scores */}
         {players.map((player, index) => (
-          <div className="inline">
+          <div className="inline" key={`frame-player-${index}`}>
             {/* Ball 1 Input */}
             <label>{player.name}:</label>
             <input
