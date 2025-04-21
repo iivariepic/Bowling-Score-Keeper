@@ -11,15 +11,17 @@ export const Intermission = () => {
     <div className="container">
       <h3>Player Standings (Round {currentRound})</h3>
       <div className="list">
-        {players.map((player) => {
+        {players.map((player, index) => {
           return (
-            <li>
-              <b>{players.indexOf(player) + 1}.</b>
+            <li key={`intermission-player-${index}`}>
+              <b>{index + 1}.</b>
               {player.name}:{" "}
-              {Number.isInteger(player.gameTotal / currentRound)
-                ? // Only show the decimal if it is needed
-                  player.gameTotal / currentRound
-                : (player.gameTotal / currentRound).toFixed(1)}
+              {
+                // Only show the decimal if it is needed
+                Number.isInteger(player.gameTotal / currentRound)
+                  ? player.gameTotal / currentRound
+                  : (player.gameTotal / currentRound).toFixed(1)
+              }
             </li>
           );
         })}
