@@ -1,43 +1,13 @@
-// The form that contains the settings for the game
-
 import React, { useState, useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
 
 export const StartGame = () => {
-  const [players, setPlayers] = useState([{ name: "", scores: [] }]);
+  const [players, setPlayers] = useState([
+    { name: "Player 1", scores: Array(10).fill({ total: 0 }) },
+    { name: "Player 2", scores: Array(10).fill({ total: 0 }) },
+  ]); // Minimum 2 players
   const [rounds, setRounds] = useState(3);
-
   const { startGame } = useContext(GlobalContext);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    const newGame = {
-      // Ensure that every player has initialized the variables
-      players: players.map((p) => ({
-        ...p,
-        scores: [],
-        gameTotal: 0,
-      })),
-      rounds,
-    };
-
-    startGame(newGame);
-  };
-
-  // Delete button pressed
-  const onDelete = (e) => {
-    e.preventDefault();
-    let newPlayers = [...players];
-    newPlayers.pop();
-    setPlayers(newPlayers);
-  };
-
-  // Add button pressed
-  const onAdd = (e) => {
-    e.preventDefault();
-    setPlayers([...players, { name: "", scores: [], gameTotal: 0 }]);
-  };
 
   // Handle player name change
   const handlePlayerNameChange = (index, value) => {
@@ -46,42 +16,87 @@ export const StartGame = () => {
     setPlayers(updatedPlayers);
   };
 
+  // Add a new player
+  const onAdd = () => {
+    if (players.length < 4) {
+      const newPlayerName = `Player ${players.length + 1}`;
+      setPlayers([
+        ...players,
+        { name: newPlayerName, scores: Array(10).fill({ total: 0 }) },
+      ]);
+    }
+  };
+
+  // Remove the last player
+  const onDelete = () => {
+    if (players.length > 2) {
+      setPlayers(players.slice(0, -1));
+    }
+  };
+
+  // Validate player names
+  const validatePlayers = () => {
+    const names = players.map((player) => player.name.trim());
+    const uniqueNames = new Set(names);
+    return (
+      names.length === uniqueNames.size && // All names are unique
+      names.every((name) => name.length > 0) // No empty names
+    );
+  };
+
+  // Handle form submission
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    if (!validatePlayers()) {
+      alert("Please ensure all player names are unique and non-empty.");
+      return;
+    }
+
+    const newGame = {
+      players: players.map((player) => ({
+        ...player,
+        scores: Array(10).fill({ total: 0 }), // Initialize scores for 10 frames
+        gameTotal: 0,
+      })),
+      rounds,
+    };
+
+    startGame(newGame);
+  };
+
   return (
     <form onSubmit={onSubmit}>
+      <h2>Game Setup</h2>
+
       <div className="form-control">
-        <label htmlFor="playerAmount">Players</label>
-        {/* Render the player name inputs */}
+        <label>Players:</label>
         {players.map((player, index) => (
           <input
             key={index}
             type="text"
-            placeholder={`Player ${index + 1} name`}
+            placeholder={`Player ${index + 1} Name`}
             value={player.name}
-            onChange={(event) =>
-              handlePlayerNameChange(index, event.target.value)
-            }
-            style={{ marginBottom: "1rem" }}
+            onChange={(e) => handlePlayerNameChange(index, e.target.value)}
             maxLength="20"
+            className="input-margin"
           />
         ))}
 
         <div className="inline">
-          {/* Delete button */}
           <button
             type="button"
             className="btn"
             onClick={onDelete}
-            disabled={players.length <= 1}
+            disabled={players.length <= 2} // Disable if only 2 players
           >
             Delete Player
           </button>
-
-          {/* Add button */}
           <button
             type="button"
             className="btn"
             onClick={onAdd}
-            disabled={players.length >= 4}
+            disabled={players.length >= 4} // Disable if 4 players
           >
             Add Player
           </button>
@@ -89,30 +104,35 @@ export const StartGame = () => {
       </div>
 
       <div className="form-control">
-        <label>Number of Rounds</label>
-        <div>
-          <input
-            type="radio"
-            value="3"
-            checked={rounds === 3}
-            onChange={(event) => setRounds(Number(event.target.value))}
-          />
-          <label htmlFor="round3">3</label>
-
-          <input
-            type="radio"
-            value="5"
-            checked={rounds === 5}
-            onChange={(event) => setRounds(Number(event.target.value))}
-          />
-          <label htmlFor="round5">5</label>
+        <label>Number of Rounds:</label>
+        <div className="radio-group">
+          <label>
+            3
+            <input
+              type="radio"
+              value="3"
+              checked={rounds === 3}
+              onChange={(e) => setRounds(Number(e.target.value))}
+            />
+          </label>
+          <label>
+            5
+            <input
+              type="radio"
+              value="5"
+              checked={rounds === 5}
+              onChange={(e) => setRounds(Number(e.target.value))}
+            />
+          </label>
         </div>
       </div>
+
       <button
+        type="submit"
         className="btn"
-        disabled={players.some((player) => player.name.trim() === "")}
+        disabled={!validatePlayers()} // Disable if validation fails
       >
-        Start Game with these Settings
+        Start Game
       </button>
     </form>
   );
