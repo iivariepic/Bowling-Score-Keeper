@@ -53,6 +53,7 @@ export const StartGame = () => {
         {/* Render the player name inputs */}
         {players.map((player, index) => (
           <input
+            key={index}
             type="text"
             placeholder={`Player ${index + 1} name`}
             value={player.name}
