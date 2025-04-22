@@ -122,7 +122,6 @@ th {
   background-color: #7d5fff; /* Primary blue color */
   color: #ffffff; /* White text */
   padding: 16px;
-  text-transform: uppercase;
 }
 
 td {
@@ -146,18 +145,13 @@ tr:nth-child(odd) {
   gap: 1rem;
 }
 
-.inline label {
-  width: 250px;
-  flex-shrink: 0;
-  align-self: start;
-}
-
-/* Current frame highlight */
+/* Highlight for the current frame */
 .current-frame {
-  background-color: #ed8100;
+  background-color: #ffcc00; /* Bright yellow for better visibility */
   font-weight: bold;
-  color: #ffffff;
+  color: #000; /* Black text for contrast */
   border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Subtle shadow for emphasis */
 }
 
 /* Styles for the Number of Rounds section */
@@ -180,6 +174,27 @@ tr:nth-child(odd) {
   gap: 8px;
 }
 
-.input-margin {
-  margin-bottom: 1rem;
+/* FrameForm table styles */
+.frame-form-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.frame-form-table th,
+.frame-form-table td {
+  border: 1px solid #dee2e6;
+  padding: 10px;
+  text-align: center;
+}
+
+.frame-form-table th {
+  background-color: #7d5fff;
+  color: #fff;
+}
+
+.frame-form-table td input {
+  width: 60px;
+  padding: 5px;
+  text-align: center;
 }

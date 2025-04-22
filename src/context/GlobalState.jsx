@@ -44,6 +44,13 @@ export const GlobalProvider = ({ children }) => {
     dispatch({ type: "RESTART_GAME" });
   }
 
+  function updateFrameScore(playerName, frameIndex, ball, value) {
+    dispatch({
+      type: "UPDATE_FRAME_SCORE",
+      payload: { playerName, frameIndex, ball, value },
+    });
+  }
+
   return (
     <GlobalContext.Provider
       value={{
@@ -57,6 +64,7 @@ export const GlobalProvider = ({ children }) => {
         nextRound,
         backToMain,
         restartGame,
+        updateFrameScore,
       }}
     >
       {children}
