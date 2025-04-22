@@ -3,8 +3,8 @@ import { GlobalContext } from "../context/GlobalState";
 
 export const StartGame = () => {
   const [players, setPlayers] = useState([
-    { name: "Player 1", scores: Array(10).fill({ total: 0 }) },
-    { name: "Player 2", scores: Array(10).fill({ total: 0 }) },
+    { name: "", scores: Array(10).fill({ total: 0 }) },
+    { name: "", scores: Array(10).fill({ total: 0 }) },
   ]); // Minimum 2 players
   const [rounds, setRounds] = useState(3);
   const { startGame } = useContext(GlobalContext);
@@ -19,10 +19,9 @@ export const StartGame = () => {
   // Add a new player
   const onAdd = () => {
     if (players.length < 4) {
-      const newPlayerName = `Player ${players.length + 1}`;
       setPlayers([
         ...players,
-        { name: newPlayerName, scores: Array(10).fill({ total: 0 }) },
+        { name: "", scores: Array(10).fill({ total: 0 }) },
       ]);
     }
   };
