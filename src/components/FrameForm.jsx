@@ -118,7 +118,7 @@ export const FrameForm = () => {
 
   return (
     <form onSubmit={submitAndNextFrame} className="frame-form">
-      <h3>Current Frame: {currentFrame}</h3>
+      <h3 className="frame-title">Current Frame: {currentFrame}</h3>
       <table className="frame-form-table">
         <thead>
           <tr>

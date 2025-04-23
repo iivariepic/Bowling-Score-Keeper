@@ -1,27 +1,27 @@
-:root {
-  --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-}
-
+/* ===== Reset and Variables ===== */
 * {
   box-sizing: border-box;
 }
 
+:root {
+  --primary-color: #9c88ff;
+  --disabled-color: #adb5bd;
+}
+
+/* ===== Typography ===== */
+html,
 body {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
   margin: 0;
+  padding: 0;
   font-family: "Poppins", sans-serif;
   font-size: 18px;
+  height: 100%;
+  background-color: #fff;
 }
 
 h1,
 h2,
-h3,
-h4 {
+h3 {
   margin: 0;
   letter-spacing: 1px;
 }
@@ -31,11 +31,373 @@ h2 {
 }
 
 h3 {
-  border-bottom: 1px solid #bbb;
   padding-bottom: 10px;
-  margin: 10px 10px;
+  margin: 10px 0;
 }
 
-h4 {
-  text-transform: uppercase;
+/* ===== Layout ===== */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+
+/* ===== Header & Footer ===== */
+.header {
+  width: 100%;
+  padding: 1rem 0;
+  background-color: #f8f9fa;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem 0;
+  background-color: #f1f1f1;
+  color: #555;
+  width: 100%;
+  margin-top: auto;
+}
+
+/* ===== Forms ===== */
+form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+input[type="text"],
+input[type="number"] {
+  border: 1px solid #dedede;
+  border-radius: 4px;
+  display: block;
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: 0;
+  display: block;
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #7d5fff;
+}
+
+.btn:disabled {
+  background-color: var(--disabled-color);
+  cursor: not-allowed;
+}
+
+.btn.small {
+  width: 48%;
+}
+
+.btn.full {
+  width: 100%;
+}
+
+/* ===== Tables ===== */
+.table-wrapper {
+  border-bottom: 1px solid #bbb;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th {
+  background-color: #7d5fff;
+  color: #ffffff;
+  padding: 16px;
+  border: 1px solid #ffffff;
+}
+
+td {
+  padding: 16px;
+  border: 1px solid #dee2e6;
+  color: #333;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #e9ecef;
+}
+
+tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* ===== Frame Form Table ===== */
+.frame-form-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.frame-form-table th,
+.frame-form-table td {
+  border: 1px solid #dee2e6;
+  padding: 16px;
+  text-align: center;
+}
+
+.frame-form-table th {
+  background-color: #7d5fff;
+  color: #fff;
+  border-bottom: none;
+}
+
+.frame-form-table td input {
+  width: 60px;
+  padding: 5px;
+  text-align: center;
+}
+
+/* ===== Utilities ===== */
+.current-frame {
+  background-color: #ffcc00;
+  font-weight: bold;
+  color: #000;
+  border-radius: 4px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 40px;
+}
+
+.list li {
+  background-color: #fff;
+  color: #333;
+  position: relative;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+/* ===== Layout Helpers ===== */
+.inline {
+  display: flex;
+  gap: 1rem;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radio-group.vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.radio-group.vertical label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-control {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 20px;
+}
+
+.start-game-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  gap: 1.5rem;
+}
+
+.start-form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.start-form-container {
+  max-width: 500px;
+  width: 100%;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.start-title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.start-subtitle {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin: 1rem;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.button-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  form {
+    padding: 15px;
+  }
+
+  .inline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-control {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* ===== StartGame Component Styles ===== */
+.start-game-form {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.start-game-container {
+  width: 100%;
+  max-width: 500px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.start-game-section {
+  margin-bottom: 1.5rem;
+}
+
+.player-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.player-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.round-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.frame-title {
+  text-align: center;
+  margin-bottom: 1rem;
 }
