@@ -118,7 +118,8 @@ export const FrameForm = () => {
 
   return (
     <form onSubmit={submitAndNextFrame} className="frame-form">
-      <h3 className="frame-title">Current Frame: {currentFrame}</h3>
+      <h3>Current Frame: {currentFrame}</h3>
+      <div className="table-wrapper">
       <table className="frame-form-table">
         <thead>
           <tr>
@@ -194,6 +195,8 @@ export const FrameForm = () => {
           {currentFrame !== 10 ? "Next Frame" : "Submit Round"}
         </button>
       </div>
+      </div>
+    
     </form>
   );
 };
