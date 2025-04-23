@@ -21,15 +21,6 @@ export default (state, action) => {
         currentFrame: Math.max(1, state.currentFrame - 1),
       };
 
-    case "UPDATE_PLAYERS":
-      return {
-        ...state,
-        game: {
-          ...state.game,
-          players: action.payload,
-        },
-      };
-
     case "NEXT_ROUND":
       return {
         ...state,
@@ -71,6 +62,7 @@ export default (state, action) => {
             ...player,
             scores: [],
             gameTotal: 0,
+            rounds: [],
           })),
         },
       };

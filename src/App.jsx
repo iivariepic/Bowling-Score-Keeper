@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Header } from "./components/Header";
+import { Layout } from "./components/Layout";
 import { StartGame } from "./components/StartGame";
 import { Scoreboard } from "./components/Scoreboard";
 import { FrameForm } from "./components/FrameForm";
@@ -8,38 +8,33 @@ import { EndScreen } from "./components/EndScreen";
 
 import { GlobalContext, GlobalProvider } from "./context/GlobalState";
 
-import "./App.css";
-
-const GameWrapper = () => {
+const AppContent = () => {
   const { game, currentFrame, currentRound } = useContext(GlobalContext);
 
-  if (!game?.players) {
-    // This is what is visible before the game starts
-    return <StartGame />;
-  }
-
-  if (currentFrame === 11) {
-    if (currentRound === game?.rounds) {
-      return <EndScreen />;
-    } else {
-      return <Intermission />;
+  const renderGameContent = () => {
+    if (!game?.players) return <StartGame />;
+    if (currentFrame === 11) {
+      return currentRound === game?.rounds ? <EndScreen /> : <Intermission />;
     }
-  }
+    return (
+      <>
+        <Scoreboard />
+        <FrameForm />
+      </>
+    );
+  };
 
   return (
-    <div className="container">
-      {/* This is what is visible after the game starts */}
-      <Scoreboard />
-      <FrameForm />
-    </div>
+    <Layout>
+      <div className="container">{renderGameContent()}</div>
+    </Layout>
   );
 };
 
 function App() {
   return (
     <GlobalProvider>
-      <Header />
-      <GameWrapper />
+      <AppContent />
     </GlobalProvider>
   );
 }
