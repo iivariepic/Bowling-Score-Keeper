@@ -2,32 +2,21 @@
 
 import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
+import { ResultsTable } from "./ResultsTable";
 
 export const EndScreen = () => {
   const { game, currentRound, backToMain, restartGame } =
     useContext(GlobalContext);
-  let players = [...game.players].sort((a, b) => b.gameTotal - a.gameTotal);
+  const players = [...game.players].sort((a, b) => b.gameTotal - a.gameTotal);
 
   return (
-    <div>
-      <h3>Player Final Standings</h3>
-      <ul className="list">
-        {players.map((player, index) => {
-          return (
-            <li key={`end-screen-player-${index}`}>
-              <b>{index + 1}. </b>
-              {player.name}:{" "}
-              {
-                // Only show the decimal if it is needed
-                Number.isInteger(player.gameTotal / currentRound)
-                  ? player.gameTotal / currentRound
-                  : (player.gameTotal / currentRound).toFixed(1)
-              }
-            </li>
-          );
-        })}
-      </ul>
-      <div className="inline">
+    <div className="end-screen-container">
+      <ResultsTable
+        players={players}
+        currentRound={currentRound}
+        title="Final Results"
+      />
+      <div className="form-control">
         <button className="btn" onClick={backToMain}>
           Back To Main Menu
         </button>

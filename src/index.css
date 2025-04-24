@@ -408,7 +408,12 @@ tr:nth-child(odd) {
   margin-top: 0.5rem;
 }
 
-/* .frame-title {
+.intermission-container {
+  padding: 20px;
   text-align: center;
-  margin-bottom: 1rem;
-} */
+}
+
+.results-table-container {
+  padding: 20px;
+  text-align: center;
+}

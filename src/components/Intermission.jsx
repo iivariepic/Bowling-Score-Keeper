@@ -2,33 +2,54 @@
 
 import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
+import { ResultsTable } from "./ResultsTable";
 
 export const Intermission = () => {
-  const { game, currentRound, nextRound } = useContext(GlobalContext);
-  let players = [...game.players].sort((a, b) => b.gameTotal - a.gameTotal);
+  const { game, currentRound, nextRound, toggleIntermission, backToMain } =
+    useContext(GlobalContext);
+  // Prepare players to include current round's scores in display values
+  const players = [...game.players]
+    .map((player) => {
+      const rounds = player.rounds || [];
+      const total = player.gameTotal || 0;
+      const average =
+        rounds.length > 0 ? (total / rounds.length).toFixed(1) : 0;
+      return {
+        ...player,
+        displayTotal: total,
+        displayAverage: average,
+        displayRounds: rounds,
+      };
+    })
+    .sort((a, b) => b.displayTotal - a.displayTotal);
 
   return (
-    <div>
-      <h3>Player Standings (Round {currentRound})</h3>
-      <ul className="list">
-        {players.map((player, index) => {
-          return (
-            <li key={`intermission-player-${index}`}>
-              <b>{index + 1}. </b>
-              {player.name}:{" "}
-              {
-                // Only show the decimal if it is needed
-                Number.isInteger(player.gameTotal / currentRound)
-                  ? player.gameTotal / currentRound
-                  : (player.gameTotal / currentRound).toFixed(1)
-              }
-            </li>
-          );
-        })}
-      </ul>
-      <button className="btn" onClick={nextRound}>
-        Next Round
-      </button>
+    <div className="intermission-container">
+      <ResultsTable
+        players={players}
+        currentRound={currentRound}
+        title={`Intermission - Round ${currentRound}`}
+      />
+      <div className="form-control">
+        <button
+          className="btn"
+          onClick={() => {
+            toggleIntermission(false);
+            backToMain();
+          }}
+        >
+          Back To Main Menu
+        </button>
+        <button
+          className="btn"
+          onClick={() => {
+            nextRound();
+            toggleIntermission(false);
+          }}
+        >
+          Next Round
+        </button>
+      </div>
     </div>
   );
 };
