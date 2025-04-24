@@ -94,58 +94,59 @@ export default (state, action) => {
               ...scores[frameIndex],
             };
 
-            // Update the specific ball
             frame[ball] = value;
-
-            // Logic for frames 1–9 with bonus scoring
-            if (frameIndex < 9) {
-              if (frame.ball1 === 10) {
-                // Strike
-                const next1 = player.scores[frameIndex + 1]?.ball1 ?? 0;
-                const next2 = player.scores[frameIndex + 1]?.ball2;
-                let bonus = next1;
-
-                if (next2 !== undefined) {
-                  bonus += next2;
-                } else {
-                  bonus += player.scores[frameIndex + 2]?.ball1 ?? 0;
-                }
-
-                frame.total = 10 + bonus;
-                frame.ball2 = 0; // Strike frame does not use ball2
-              } else if (frame.ball1 + frame.ball2 === 10) {
-                // Spare
-                const next = player.scores[frameIndex + 1]?.ball1 ?? 0;
-                frame.total = 10 + next;
-              } else {
-                frame.total = frame.ball1 + frame.ball2;
-              }
-            }
-
-            // Logic for frame 10
-            if (frameIndex === 9) {
-              const isStrike = frame.ball1 === 10;
-              const isSpare = frame.ball1 + frame.ball2 === 10;
-
-              if (isStrike) {
-                // Strike: Include ball2 and ball3
-                frame.total = frame.ball1 + frame.ball2 + frame.ball3;
-              } else if (isSpare) {
-                // Spare: Include ball3
-                frame.total = frame.ball1 + frame.ball2 + frame.ball3;
-              } else {
-                // No strike or spare: Only ball1 and ball2 are counted
-                frame.total = frame.ball1 + frame.ball2;
-              }
-            }
-
             scores[frameIndex] = frame;
 
-            // recalculate gameTotal after frame update
+            // Recalculate all frame totals with bonuses
+            for (let i = 0; i < scores.length; i++) {
+              const f = {
+                ball1: scores[i]?.ball1 || 0,
+                ball2: scores[i]?.ball2 || 0,
+                ball3: scores[i]?.ball3 || 0,
+                total: 0,
+              };
+
+              const isStrike = f.ball1 === 10;
+              const isSpare = f.ball1 + f.ball2 === 10 && f.ball1 !== 10;
+
+              const next1 = scores[i + 1] || {};
+              const next2 = scores[i + 2] || {};
+
+              if (i === 9) {
+                const isFinalStrike = f.ball1 === 10;
+                const isFinalSpare = f.ball1 + f.ball2 === 10;
+
+                if (isFinalStrike || isFinalSpare) {
+                  f.total = f.ball1 + f.ball2 + f.ball3;
+                } else {
+                  f.total = f.ball1 + f.ball2;
+                }
+              } else if (isStrike) {
+                let bonusBalls = [];
+
+                if (next1.ball1 !== undefined) bonusBalls.push(next1.ball1);
+                if (next1.ball1 === 10 && next2.ball1 !== undefined) {
+                  bonusBalls.push(next2.ball1);
+                } else if (next1.ball2 !== undefined) {
+                  bonusBalls.push(next1.ball2);
+                }
+
+                const strikeBonus = (bonusBalls[0] || 0) + (bonusBalls[1] || 0);
+                f.total = 10 + strikeBonus;
+              } else if (isSpare) {
+                f.total = 10 + (next1.ball1 || 0);
+              } else {
+                f.total = f.ball1 + f.ball2;
+              }
+
+              scores[i] = { ...scores[i], total: f.total };
+            }
+
             const newGameTotal = scores.reduce(
               (sum, s) => sum + (s.total || 0),
               0
             );
+
             return {
               ...player,
               scores,
