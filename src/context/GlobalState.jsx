@@ -5,6 +5,7 @@ const initialState = {
   game: {},
   currentRound: 1,
   currentFrame: 1,
+  showIntermission: false, // New state to control intermission visibility
 };
 
 export const GlobalContext = createContext(initialState);
@@ -47,16 +48,22 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
+  function toggleIntermission(show) {
+    dispatch({ type: "TOGGLE_INTERMISSION", payload: show });
+  }
+
   return (
     <GlobalContext.Provider
       value={{
         game: state.game,
         currentRound: state.currentRound,
         currentFrame: state.currentFrame,
+        showIntermission: state.showIntermission,
         startGame,
         nextFrame,
         prevFrame,
         nextRound,
+        toggleIntermission,
         backToMain,
         restartGame,
         updateFrameScore,

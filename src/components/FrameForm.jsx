@@ -2,8 +2,15 @@ import React, { useContext, useState, useEffect } from "react";
 import { GlobalContext } from "../context/GlobalState";
 
 export const FrameForm = () => {
-  const { game, currentFrame, updateFrameScore, nextFrame, prevFrame } =
-    useContext(GlobalContext);
+  const {
+    game,
+    currentFrame,
+    updateFrameScore,
+    nextFrame,
+    prevFrame,
+    nextRound,
+    toggleIntermission,
+  } = useContext(GlobalContext);
   const players = game.players;
 
   const [frameScores, setFrameScores] = useState({});
@@ -88,7 +95,6 @@ export const FrameForm = () => {
   const submitAndNextFrame = (e) => {
     e.preventDefault();
 
-    // Fill empty values with zeros
     players.forEach((player) => {
       const frameScore = frameScores[player.name] || {};
       updateFrameScore(
@@ -113,90 +119,94 @@ export const FrameForm = () => {
       }
     });
 
-    nextFrame();
+    if (currentFrame === 10) {
+      nextFrame();
+      toggleIntermission(true); // Show the intermission screen
+    } else {
+      nextFrame(); // Move to the next frame
+    }
   };
 
   return (
     <form onSubmit={submitAndNextFrame} className="frame-form">
       <h3>Current Frame: {currentFrame}</h3>
       <div className="table-wrapper">
-      <table className="frame-form-table">
-        <thead>
-          <tr>
-            <th>Player</th>
-            <th>Ball 1</th>
-            <th>Ball 2</th>
-            {currentFrame === 10 &&
-              players.some(
-                (p) =>
-                  Number(frameScores[p.name]?.ball1) === 10 ||
-                  Number(frameScores[p.name]?.ball1) +
-                    Number(frameScores[p.name]?.ball2) ===
-                    10
-              ) && <th>Ball 3</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {players.map((player, index) => (
-            <tr key={`frame-form-player-${index}-${player.name}`}>
-              <td>{player.name}</td>
-              <td>
-                <input
-                  type="number"
-                  value={frameScores[player.name]?.ball1 ?? 0} // Default to 0
-                  max="10"
-                  min="0"
-                  onChange={(e) =>
-                    handleChange(player.name, "ball1", e.target.value)
-                  }
-                />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  value={frameScores[player.name]?.ball2 ?? 0} // Default to 0
-                  max="10"
-                  min="0"
-                  onChange={(e) =>
-                    handleChange(player.name, "ball2", e.target.value)
-                  }
-                />
-              </td>
+        <table className="frame-form-table">
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Ball 1</th>
+              <th>Ball 2</th>
               {currentFrame === 10 &&
-                (Number(frameScores[player.name]?.ball1) === 10 ||
-                  Number(frameScores[player.name]?.ball1) +
-                    Number(frameScores[player.name]?.ball2) ===
-                    10) && (
-                  <td>
-                    <input
-                      type="number"
-                      value={frameScores[player.name]?.ball3 ?? 0} // Default to 0
-                      max="10"
-                      min="0"
-                      onChange={(e) =>
-                        handleChange(player.name, "ball3", e.target.value)
-                      }
-                    />
-                  </td>
-                )}
+                players.some(
+                  (p) =>
+                    Number(frameScores[p.name]?.ball1) === 10 ||
+                    Number(frameScores[p.name]?.ball1) +
+                      Number(frameScores[p.name]?.ball2) ===
+                      10
+                ) && <th>Ball 3</th>}
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="form-control">
-        <button
-          className="btn"
-          onClick={submitAndPrevFrame}
-          disabled={currentFrame <= 1}
-        >
-          Previous Frame
-        </button>
-        <button className="btn" type="submit">
-          {currentFrame !== 10 ? "Next Frame" : "Submit Round"}
-        </button>
+          </thead>
+          <tbody>
+            {players.map((player, index) => (
+              <tr key={`frame-form-player-${index}-${player.name}`}>
+                <td>{player.name}</td>
+                <td>
+                  <input
+                    type="number"
+                    value={frameScores[player.name]?.ball1 ?? 0} // Default to 0
+                    max="10"
+                    min="0"
+                    onChange={(e) =>
+                      handleChange(player.name, "ball1", e.target.value)
+                    }
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    value={frameScores[player.name]?.ball2 ?? 0} // Default to 0
+                    max="10"
+                    min="0"
+                    onChange={(e) =>
+                      handleChange(player.name, "ball2", e.target.value)
+                    }
+                  />
+                </td>
+                {currentFrame === 10 &&
+                  (Number(frameScores[player.name]?.ball1) === 10 ||
+                    Number(frameScores[player.name]?.ball1) +
+                      Number(frameScores[player.name]?.ball2) ===
+                      10) && (
+                    <td>
+                      <input
+                        type="number"
+                        value={frameScores[player.name]?.ball3 ?? 0} // Default to 0
+                        max="10"
+                        min="0"
+                        onChange={(e) =>
+                          handleChange(player.name, "ball3", e.target.value)
+                        }
+                      />
+                    </td>
+                  )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="form-control">
+          <button
+            className="btn"
+            onClick={submitAndPrevFrame}
+            disabled={currentFrame <= 1}
+          >
+            Previous Frame
+          </button>
+          <button className="btn" type="submit">
+            {currentFrame !== 10 ? "Next Frame" : "Submit Round"}
+          </button>
+        </div>
       </div>
-      </div>
-    
     </form>
   );
 };
