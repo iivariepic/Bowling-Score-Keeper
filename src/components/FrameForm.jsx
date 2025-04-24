@@ -37,8 +37,8 @@ export const FrameForm = () => {
   const handleChange = (playerName, ball, value) => {
     value = Number(value);
 
-    // Ensure valid input for Ball 1 and Ball 2
-    if (ball !== "ball3") {
+    // Ensure valid input for Ball 1 and Ball 2 (frames 1-9 only)
+    if (ball !== "ball3" && currentFrame < 10) {
       const otherBall = ball === "ball1" ? "ball2" : "ball1";
       const otherValue = frameScores[playerName]?.[otherBall] ?? 0;
 
@@ -46,6 +46,8 @@ export const FrameForm = () => {
         value = 10 - otherValue;
       }
     }
+
+    // For frame 10, ball2 and ball3 can be up to 10 individually, no sum restriction
 
     // Update local state
     setFrameScores((prevScores) => ({
@@ -127,6 +129,15 @@ export const FrameForm = () => {
     }
   };
 
+  // Determine if Roll 3 should be shown in header and rows
+  const showRoll3Header =
+    currentFrame === 10 &&
+    players.some((p) => {
+      const ball1 = Number(frameScores[p.name]?.ball1) || 0;
+      const ball2 = Number(frameScores[p.name]?.ball2) || 0;
+      return ball1 === 10 || ball1 + ball2 === 10;
+    });
+
   return (
     <form onSubmit={submitAndNextFrame} className="frame-form">
       <h3>Current Frame: {currentFrame}</h3>
@@ -135,49 +146,44 @@ export const FrameForm = () => {
           <thead>
             <tr>
               <th>Player</th>
-              <th>Ball 1</th>
-              <th>Ball 2</th>
-              {currentFrame === 10 &&
-                players.some(
-                  (p) =>
-                    Number(frameScores[p.name]?.ball1) === 10 ||
-                    Number(frameScores[p.name]?.ball1) +
-                      Number(frameScores[p.name]?.ball2) ===
-                      10
-                ) && <th>Ball 3</th>}
+              <th>Roll 1</th>
+              <th>Roll 2</th>
+              {showRoll3Header && <th>Roll 3</th>}
             </tr>
           </thead>
           <tbody>
-            {players.map((player, index) => (
-              <tr key={`frame-form-player-${index}-${player.name}`}>
-                <td>{player.name}</td>
-                <td>
-                  <input
-                    type="number"
-                    value={frameScores[player.name]?.ball1 ?? 0} // Default to 0
-                    max="10"
-                    min="0"
-                    onChange={(e) =>
-                      handleChange(player.name, "ball1", e.target.value)
-                    }
-                  />
-                </td>
-                <td>
-                  <input
-                    type="number"
-                    value={frameScores[player.name]?.ball2 ?? 0} // Default to 0
-                    max="10"
-                    min="0"
-                    onChange={(e) =>
-                      handleChange(player.name, "ball2", e.target.value)
-                    }
-                  />
-                </td>
-                {currentFrame === 10 &&
-                  (Number(frameScores[player.name]?.ball1) === 10 ||
-                    Number(frameScores[player.name]?.ball1) +
-                      Number(frameScores[player.name]?.ball2) ===
-                      10) && (
+            {players.map((player, index) => {
+              const ball1 = Number(frameScores[player.name]?.ball1) || 0;
+              const ball2 = Number(frameScores[player.name]?.ball2) || 0;
+              const showRoll3 =
+                currentFrame === 10 && (ball1 === 10 || ball1 + ball2 === 10);
+
+              return (
+                <tr key={`frame-form-player-${index}-${player.name}`}>
+                  <td>{player.name}</td>
+                  <td>
+                    <input
+                      type="number"
+                      value={frameScores[player.name]?.ball1 ?? 0} // Default to 0
+                      max="10"
+                      min="0"
+                      onChange={(e) =>
+                        handleChange(player.name, "ball1", e.target.value)
+                      }
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      value={frameScores[player.name]?.ball2 ?? 0} // Default to 0
+                      max="10"
+                      min="0"
+                      onChange={(e) =>
+                        handleChange(player.name, "ball2", e.target.value)
+                      }
+                    />
+                  </td>
+                  {showRoll3 && (
                     <td>
                       <input
                         type="number"
@@ -190,8 +196,9 @@ export const FrameForm = () => {
                       />
                     </td>
                   )}
-              </tr>
-            ))}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <div className="form-control">

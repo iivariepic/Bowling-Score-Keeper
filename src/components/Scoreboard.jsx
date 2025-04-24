@@ -24,7 +24,7 @@ export const Scoreboard = () => {
                   {frame}
                 </th>
               ))}
-              <th>Total Score</th>
+              <th>Game Score</th>
             </tr>
           </thead>
           <tbody>

@@ -99,7 +99,7 @@ export const StartGame = () => {
         </div>
 
         <div className="start-game-section">
-          <label>Number of Rounds:</label>
+          <label>Number of Games:</label>
           <div className="round-options">
             <label>
               3
@@ -127,7 +127,7 @@ export const StartGame = () => {
           className="btn full"
           disabled={!validatePlayers()}
         >
-          Start Game
+          Start Match
         </button>
       </div>
     </form>

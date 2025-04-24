@@ -19,7 +19,7 @@ export const ResultsTable = ({ players, currentRound, title }) => {
                   ),
                 },
                 (_, i) => (
-                  <th key={`round-${i + 1}`}>Round {i + 1}</th>
+                  <th key={`round-${i + 1}`}>Game {i + 1}</th>
                 )
               )}
               <th>Average</th>

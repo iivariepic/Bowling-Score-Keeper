@@ -408,6 +408,10 @@ tr:nth-child(odd) {
   margin-top: 0.5rem;
 }
 
+.round-options input[type="radio"] {
+  margin-left: 8px;
+}
+
 .intermission-container {
   padding: 20px;
   text-align: center;

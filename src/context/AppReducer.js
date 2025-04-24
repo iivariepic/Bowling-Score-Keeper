@@ -63,7 +63,7 @@ export default (state, action) => {
       return {
         ...state,
         currentRound: 1,
-        currentFrame: 0,
+        currentFrame: 1,
         game: {
           ...state.game,
           players: state.game.players.map((player) => ({
@@ -97,14 +97,27 @@ export default (state, action) => {
             // Update the specific ball
             frame[ball] = value;
 
-            // Logic for frames 1–9
+            // Logic for frames 1–9 with bonus scoring
             if (frameIndex < 9) {
               if (frame.ball1 === 10) {
-                // Strike: Only ball1 is counted
-                frame.total = 10;
-                frame.ball2 = 0; // Ensure ball2 is ignored
+                // Strike
+                const next1 = player.scores[frameIndex + 1]?.ball1 ?? 0;
+                const next2 = player.scores[frameIndex + 1]?.ball2;
+                let bonus = next1;
+
+                if (next2 !== undefined) {
+                  bonus += next2;
+                } else {
+                  bonus += player.scores[frameIndex + 2]?.ball1 ?? 0;
+                }
+
+                frame.total = 10 + bonus;
+                frame.ball2 = 0; // Strike frame does not use ball2
+              } else if (frame.ball1 + frame.ball2 === 10) {
+                // Spare
+                const next = player.scores[frameIndex + 1]?.ball1 ?? 0;
+                frame.total = 10 + next;
               } else {
-                // Normal frame: Sum of ball1 and ball2
                 frame.total = frame.ball1 + frame.ball2;
               }
             }
@@ -128,7 +141,7 @@ export default (state, action) => {
 
             scores[frameIndex] = frame;
 
-            // recalculate gameTotal and rounds after frame update
+            // recalculate gameTotal after frame update
             const newGameTotal = scores.reduce(
               (sum, s) => sum + (s.total || 0),
               0

@@ -28,7 +28,7 @@ export const Intermission = () => {
       <ResultsTable
         players={players}
         currentRound={currentRound}
-        title={`Intermission - Round ${currentRound}`}
+        title={`Game ${currentRound} Results`}
       />
       <div className="form-control">
         <button
@@ -47,7 +47,7 @@ export const Intermission = () => {
             toggleIntermission(false);
           }}
         >
-          Next Round
+          Next Game
         </button>
       </div>
     </div>
