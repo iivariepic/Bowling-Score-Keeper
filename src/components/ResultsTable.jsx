@@ -2,8 +2,8 @@ import React from "react";
 
 export const ResultsTable = ({ players, currentRound, title }) => {
   return (
-    <div className="table-wrapper">
-      <h2>{title}</h2>
+    <div>
+      <h2 className="start-title">{title}</h2>
       <div className="table-wrapper">
         <table>
           <thead>

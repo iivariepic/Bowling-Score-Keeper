@@ -195,7 +195,8 @@ export const FrameForm = () => {
                       }
                       disabled={
                         currentFrame < 10 &&
-                        frameScores[player.name]?.ball1 === 0
+                        (frameScores[player.name]?.ball1 === undefined ||
+                          frameScores[player.name]?.ball1 === null)
                       }
                     />
                   </td>
@@ -232,7 +233,7 @@ export const FrameForm = () => {
             Previous Frame
           </button>
           <button className="btn" type="submit">
-            {currentFrame !== 10 ? "Next Frame" : "Submit Round"}
+            {currentFrame !== 10 ? "Next Frame" : "Finish Game"}
           </button>
         </div>
       </div>

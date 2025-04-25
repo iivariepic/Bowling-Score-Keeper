@@ -18,10 +18,10 @@ export const EndScreen = () => {
       />
       <div className="form-control">
         <button className="btn" onClick={backToMain}>
-          Back To Main Menu
+          Main Menu
         </button>
         <button className="btn" onClick={restartGame}>
-          Restart Game With the Same Players
+          Restart Match
         </button>
       </div>
     </div>
