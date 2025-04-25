@@ -167,6 +167,12 @@ export const FrameForm = () => {
                       value={frameScores[player.name]?.ball1 ?? 0} // Default to 0
                       max="10"
                       min="0"
+                      onInput={(e) =>
+                        (e.target.value = Math.max(
+                          0,
+                          Math.min(10, e.target.value)
+                        ))
+                      }
                       onChange={(e) =>
                         handleChange(player.name, "ball1", e.target.value)
                       }
@@ -178,8 +184,18 @@ export const FrameForm = () => {
                       value={frameScores[player.name]?.ball2 ?? 0} // Default to 0
                       max="10"
                       min="0"
+                      onInput={(e) =>
+                        (e.target.value = Math.max(
+                          0,
+                          Math.min(10, e.target.value)
+                        ))
+                      }
                       onChange={(e) =>
                         handleChange(player.name, "ball2", e.target.value)
+                      }
+                      disabled={
+                        currentFrame < 10 &&
+                        frameScores[player.name]?.ball1 === 0
                       }
                     />
                   </td>
@@ -190,6 +206,12 @@ export const FrameForm = () => {
                         value={frameScores[player.name]?.ball3 ?? 0} // Default to 0
                         max="10"
                         min="0"
+                        onInput={(e) =>
+                          (e.target.value = Math.max(
+                            0,
+                            Math.min(10, e.target.value)
+                          ))
+                        }
                         onChange={(e) =>
                           handleChange(player.name, "ball3", e.target.value)
                         }
