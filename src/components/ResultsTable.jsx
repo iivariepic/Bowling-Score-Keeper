@@ -1,6 +1,12 @@
 import React from "react";
 
 export const ResultsTable = ({ players, currentRound, title }) => {
+  const sortedPlayers = [...players].sort(
+    (a, b) =>
+      (b.displayTotal ?? b.gameTotal ?? 0) -
+      (a.displayTotal ?? a.gameTotal ?? 0)
+  );
+
   return (
     <div>
       <h2 className="start-title">{title}</h2>
@@ -27,8 +33,7 @@ export const ResultsTable = ({ players, currentRound, title }) => {
             </tr>
           </thead>
           <tbody>
-            {players.map((player) => {
-              // Prefer displayRounds/Total/Average if present, fallback to old fields
+            {sortedPlayers.map((player, index) => {
               const rounds = player.displayRounds || player.rounds || [];
               const isCurrentRoundComplete = rounds.length === currentRound;
               const currentScore = player.scores?.reduce(
@@ -38,6 +43,7 @@ export const ResultsTable = ({ players, currentRound, title }) => {
               const totalRounds = isCurrentRoundComplete
                 ? rounds
                 : [...rounds, currentScore];
+
               return (
                 <tr key={player.name}>
                   <td>{player.name}</td>

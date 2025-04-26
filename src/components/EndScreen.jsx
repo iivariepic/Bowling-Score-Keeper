@@ -1,5 +1,3 @@
-// The End Screen that plays after all the rounds are finished
-
 import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
 import { ResultsTable } from "./ResultsTable";
@@ -7,7 +5,18 @@ import { ResultsTable } from "./ResultsTable";
 export const EndScreen = () => {
   const { game, currentRound, backToMain, restartGame } =
     useContext(GlobalContext);
-  const players = [...game.players].sort((a, b) => b.gameTotal - a.gameTotal);
+
+  const players = [...game.players].map((player) => {
+    const rounds = player.rounds || [];
+    const total = player.gameTotal || 0;
+    const average = rounds.length > 0 ? (total / rounds.length).toFixed(1) : 0;
+    return {
+      ...player,
+      displayTotal: total,
+      displayAverage: average,
+      displayRounds: rounds,
+    };
+  });
 
   return (
     <div className="end-screen-container">
