@@ -232,49 +232,10 @@ tr:nth-child(odd) {
   border-radius: 4px;
 }
 
-.list {
-  list-style-type: none;
-  padding: 0;
-  margin-bottom: 40px;
-}
-
-.list li {
-  background-color: #fff;
-  color: #333;
-  position: relative;
-  padding: 10px;
-  margin: 10px 0;
-}
-
 /* ===== Layout Helpers ===== */
 .inline {
   display: flex;
   gap: 1rem;
-}
-
-.radio-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.radio-group.vertical {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.radio-group.vertical label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 .form-control {
@@ -285,10 +246,6 @@ tr:nth-child(odd) {
   margin-right: 1rem;
   margin-top: 20px;
 }
-
-/* .form-control .btn {
-  margin: 0 1rem;
-} */
 
 .start-game-wrapper {
   display: flex;
