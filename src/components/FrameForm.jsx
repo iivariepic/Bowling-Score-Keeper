@@ -8,7 +8,6 @@ export const FrameForm = () => {
     updateFrameScore,
     nextFrame,
     prevFrame,
-    nextRound,
     toggleIntermission,
   } = useContext(GlobalContext);
   const players = game.players;

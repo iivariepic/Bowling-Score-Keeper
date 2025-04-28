@@ -1,10 +1,31 @@
 import React from "react";
 
 export const ResultsTable = ({ players, currentRound, title }) => {
-  const sortedPlayers = [...players].sort(
-    (a, b) =>
-      (b.displayTotal ?? b.gameTotal ?? 0) -
-      (a.displayTotal ?? a.gameTotal ?? 0)
+  const playersWithTotals = players.map((player) => {
+    const rounds = player.rounds || [];
+    const isCurrentRoundComplete = rounds.length === currentRound;
+    const currentScore = player.scores?.reduce(
+      (sum, s) => sum + (s.total || 0),
+      0
+    );
+    const totalRounds = isCurrentRoundComplete
+      ? rounds
+      : [...rounds, currentScore];
+
+    const totalScore = totalRounds.reduce((sum, score) => sum + score, 0);
+    const averageScore =
+      totalRounds.length > 0 ? totalScore / totalRounds.length : 0;
+
+    return {
+      ...player,
+      totalRounds,
+      totalScore,
+      averageScore,
+    };
+  });
+
+  const sortedPlayers = [...playersWithTotals].sort(
+    (a, b) => b.averageScore - a.averageScore
   );
 
   return (
@@ -18,9 +39,7 @@ export const ResultsTable = ({ players, currentRound, title }) => {
               {Array.from(
                 {
                   length: Math.max(
-                    ...players.map(
-                      (p) => (p.displayRounds || p.rounds || []).length
-                    ),
+                    ...players.map((p) => (p.rounds || []).length),
                     currentRound
                   ),
                 },
@@ -28,50 +47,31 @@ export const ResultsTable = ({ players, currentRound, title }) => {
                   <th key={`round-${i + 1}`}>Game {i + 1}</th>
                 )
               )}
-              <th>Average</th>
+              <th>Avg / Game</th>
               <th>Total</th>
             </tr>
           </thead>
           <tbody>
-            {sortedPlayers.map((player, index) => {
-              const rounds = player.displayRounds || player.rounds || [];
-              const isCurrentRoundComplete = rounds.length === currentRound;
-              const currentScore = player.scores?.reduce(
-                (sum, s) => sum + (s.total || 0),
-                0
-              );
-              const totalRounds = isCurrentRoundComplete
-                ? rounds
-                : [...rounds, currentScore];
-
-              return (
-                <tr key={player.name}>
-                  <td>{player.name}</td>
-                  {Array.from(
-                    {
-                      length: Math.max(
-                        ...players.map(
-                          (p) => (p.displayRounds || p.rounds || []).length
-                        ),
-                        currentRound
-                      ),
-                    },
-                    (_, i) => (
-                      <td key={`player-${player.name}-round-${i + 1}`}>
-                        {totalRounds[i] || 0}
-                      </td>
-                    )
-                  )}
-                  <td>
-                    {(
-                      totalRounds.reduce((sum, score) => sum + score, 0) /
-                      totalRounds.length
-                    ).toFixed(1)}
-                  </td>
-                  <td>{totalRounds.reduce((sum, score) => sum + score, 0)}</td>
-                </tr>
-              );
-            })}
+            {sortedPlayers.map((player) => (
+              <tr key={player.name}>
+                <td>{player.name}</td>
+                {Array.from(
+                  {
+                    length: Math.max(
+                      ...players.map((p) => (p.rounds || []).length),
+                      currentRound
+                    ),
+                  },
+                  (_, i) => (
+                    <td key={`player-${player.name}-round-${i + 1}`}>
+                      {player.totalRounds[i] || 0}
+                    </td>
+                  )
+                )}
+                <td>{player.averageScore.toFixed(1)}</td>
+                <td>{player.totalScore}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
