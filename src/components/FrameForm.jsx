@@ -35,6 +35,9 @@ export const FrameForm = () => {
   // Handle input changes
   const handleChange = (playerName, ball, value) => {
     value = Number(value);
+    let updateOtherBall = false
+    let otherUpdateBall = ""
+    let otherUpdateValue = 0
 
     // Ensure valid input for Ball 1 and Ball 2 (frames 1-9 only)
     if (ball !== "ball3") {
@@ -50,14 +53,31 @@ export const FrameForm = () => {
           if (ball !== "ball1"  && otherValue < 10) {
             value = 10 - otherValue;
           }
-          else if (ball === "ball1" && value !== 10) {
+          else if (ball !== "ball1" && value < 10 && otherValue >= 10) {
+            // Update the third ball if the second is changed
+            const ball3Value = frameScores[playerName]?.["ball3"] ?? 0;
+            if (value + ball3Value > 10) {
+              updateOtherBall = true
+              otherUpdateBall = "ball3"
+              otherUpdateValue = 10 - value
+            }
+          }
+          else if (ball === "ball1" && value < 10) {
             // Update the second ball if the first is later changed
-            handleChange(playerName, "ball2", (10 - value))
+            updateOtherBall = true
+            otherUpdateBall = "ball2"
+            otherUpdateValue = 10 - value
           }
         }
       }
-
+    }
+    // Special scoring restrictions to the 3rd ball if the second was not a strike
+    else if (ball === "ball3") {
+      const ball2Value = frameScores[playerName]?.["ball2"] ?? 0;
+      if (ball2Value < 10 && value + ball2Value > 10) {
+        value = 10 - ball2Value
       }
+    }
 
     // Update local state
     setFrameScores((prevScores) => ({
@@ -70,6 +90,11 @@ export const FrameForm = () => {
 
     // Update global state immediately
     updateFrameScore(playerName, currentFrame - 1, ball, value); // Ensure frameIndex is correct
+
+    // Update the other balls if needed
+    if (updateOtherBall) {
+      handleChange(playerName, otherUpdateBall, otherUpdateValue)
+    }
   };
 
   // Submit and move to the previous frame
