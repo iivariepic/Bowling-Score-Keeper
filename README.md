@@ -13,5 +13,6 @@ This project is part of a team assignment for a React front-end course.
 
 ```bash
 npm install
+npm install html2pdf.js
 npm run dev
 ```
