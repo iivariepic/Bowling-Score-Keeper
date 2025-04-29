@@ -74,7 +74,8 @@ export const FrameForm = () => {
     // Special scoring restrictions to the 3rd ball if the second was not a strike
     else if (ball === "ball3") {
       const ball2Value = frameScores[playerName]?.["ball2"] ?? 0;
-      if (ball2Value < 10 && value + ball2Value > 10) {
+      const ball1Value = frameScores[playerName]?.["ball1"] ?? 0;
+      if (ball2Value < 10 && value + ball2Value > 10 && ball1Value >= 10) {
         value = 10 - ball2Value
       }
     }
