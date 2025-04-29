@@ -3,7 +3,7 @@ import { GlobalContext } from "../context/GlobalState";
 import { ResultsTable } from "./ResultsTable";
 
 export const Intermission = () => {
-  const { game, currentRound, nextRound, toggleIntermission, backToMain } =
+  const { game, currentRound, nextRound, toggleIntermission, backToMain, prevFrame } =
     useContext(GlobalContext);
 
   return (
@@ -14,6 +14,15 @@ export const Intermission = () => {
         title={`Results after Game ${currentRound} of ${game.rounds}`}
       />
       <div className="form-control">
+      <button
+          className="btn"
+          onClick={() => {
+              toggleIntermission(false);
+              prevFrame();
+          }}
+      >
+          Modify Previous Game
+      </button>
         <button
           className="btn"
           onClick={() => {

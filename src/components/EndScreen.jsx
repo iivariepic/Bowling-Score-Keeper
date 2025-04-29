@@ -3,7 +3,7 @@ import { GlobalContext } from "../context/GlobalState";
 import { ResultsTable } from "./ResultsTable";
 
 export const EndScreen = () => {
-  const { game, currentRound, backToMain, restartGame } = useContext(GlobalContext);
+  const { game, currentRound, backToMain, restartGame, prevFrame } = useContext(GlobalContext);
   const resultRef = useRef();
 
   const downloadPDF = async () => {
@@ -36,6 +36,14 @@ export const EndScreen = () => {
         />
       </div>
       <div className="form-control">
+        <button
+            className="btn"
+            onClick={() => {
+              prevFrame();
+            }}
+        >
+          Modify Last Game
+        </button>
         <button className="btn" onClick={backToMain}>Main Menu</button>
         <button className="btn" onClick={restartGame}>Restart Match</button>
         <button className="btn" onClick={downloadPDF}>Download PDF</button>
