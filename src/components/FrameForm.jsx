@@ -37,16 +37,27 @@ export const FrameForm = () => {
     value = Number(value);
 
     // Ensure valid input for Ball 1 and Ball 2 (frames 1-9 only)
-    if (ball !== "ball3" && currentFrame < 10) {
+    if (ball !== "ball3") {
       const otherBall = ball === "ball1" ? "ball2" : "ball1";
       const otherValue = frameScores[playerName]?.[otherBall] ?? 0;
 
       if (value + otherValue > 10) {
-        value = 10 - otherValue;
+        if (currentFrame < 10) {
+          value = 10 - otherValue;
+        }
+        // Limit 10th frame first 2 balls to 10 only if the first ball was not a strike
+        else if (currentFrame === 10) {
+          if (ball !== "ball1"  && otherValue < 10) {
+            value = 10 - otherValue;
+          }
+          else if (ball === "ball1" && value !== 10) {
+            // Update the second ball if the first is later changed
+            handleChange(playerName, "ball2", (10 - value))
+          }
+        }
       }
-    }
 
-    // For frame 10, ball2 and ball3 can be up to 10 individually, no sum restriction
+      }
 
     // Update local state
     setFrameScores((prevScores) => ({
